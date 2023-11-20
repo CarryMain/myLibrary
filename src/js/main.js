@@ -1,3 +1,5 @@
-import './lib/core';
+import './lib/lib';
 
-$('.active').hide().show();
+$('button').containsClass('active')
+
+

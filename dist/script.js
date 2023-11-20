@@ -303,31 +303,32 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.animateOverTime = functi
   ;
   return _animateOverTime;
 };
-_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeIn = function (dur, display, fin) {
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fade = function (dur, display, fin, fadingIn) {
   for (let i = 0; i < this.length; i++) {
-    this[i].style.display = display || 'block';
-    const _fadeIn = complection => {
-      this[i].style.opacity = complection;
+    const fadeFunc = complection => {
+      const opacity = fadingIn ? complection : 1 - complection;
+      this[i].style.opacity = opacity;
+      if (!fadingIn && complection === 1) {
+        this[i].style.display = 'none';
+      }
     };
-    const ani = this.animateOverTime(dur, _fadeIn, fin);
+    this[i].style.display = window.getComputedStyle(this[i]).display === 'none' || fadingIn ? display || 'block' : this[i].style.display;
+    const ani = this.animateOverTime(dur, fadeFunc, fin);
     requestAnimationFrame(ani);
   }
-  ;
   return this;
 };
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeIn = function (dur, display, fin) {
+  return this.fade(dur, display, fin, true);
+};
 _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeOut = function (dur, fin) {
+  return this.fade(dur, null, fin, false);
+};
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.fadeToggle = function (dur, display, fin) {
   for (let i = 0; i < this.length; i++) {
-    const _fadeOut = complection => {
-      this[i].style.opacity = 1 - complection;
-      if (complection === 1) {
-        this[i].style.opacity = 'none';
-      }
-      ;
-    };
-    const ani = this.animateOverTime(dur, _fadeOut, fin);
-    requestAnimationFrame(ani);
+    const fadingIn = window.getComputedStyle(this[i]).display === 'none';
+    this.fade(dur, display, fin, fadingIn);
   }
-  ;
   return this;
 };
 
@@ -439,13 +440,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
 $('#first').on('click', () => {
-  $('div').eq(1).fadeOut(800);
+  $('div').eq(1).fadeToggle(800);
 });
 $('[data-count="second"]').on('click', () => {
-  $('div').eq(2).fadeOut(800);
+  $('div').eq(2).fadeToggle(800);
 });
 $('button').eq(2).on('click', () => {
-  $('.w-500').fadeOut(800);
+  $('.w-500').fadeToggle(800);
 });
 })();
 

@@ -438,13 +438,15 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_lib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/lib */ "./src/js/lib/lib.js");
 
-$('button').on('click', function () {
-  $('div').eq(2).toggleClass('active');
+$('#first').on('click', () => {
+  $('div').eq(1).fadeOut(800);
 });
-$('div').click(function () {
-  console.log($(this).index());
+$('[data-count="second"]').on('click', () => {
+  $('div').eq(2).fadeOut(800);
 });
-$('button').fadeIn(1900);
+$('button').eq(2).on('click', () => {
+  $('.w-500').fadeOut(800);
+});
 })();
 
 /******/ })()
